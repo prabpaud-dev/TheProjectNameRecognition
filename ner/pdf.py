@@ -4,22 +4,21 @@ from pathlib import Path
 
 
 def extract_text_from_pdf(doc):
-
     text = ""
-    path = Path.open(doc)
-    pdf = pymupdf.open(path)
+    pdf = pymupdf.open(doc)
+
     for page in pdf:
-        print(page)
-        text+=page.get_text()
+        text += page.get_text()
+
+    pdf.close()
     return text
 
-def extract_pdf_dataset(dataset,pdfs_directory):
-
+def extract_pdf_dataset(dataset, pdfs_directory):
     results = []
     for record in dataset:
 
         document_id = record["id"]
-        pdf_path = Path(pdfs_directory/f"{document_id}.pdf")
+        pdf_path = Path(pdfs_directory) / f"{document_id}_scanned.pdf"
         text = extract_text_from_pdf(pdf_path)
 
         results.append({
